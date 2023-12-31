@@ -13,6 +13,17 @@ I2C, UART, SPI에 따라 다르다.
 
 자세한 내용은 [이쪽](https://github.com/soonuse/pn532-lib/tree/master)을 참고 바란다.
 
+### 이 예제 사용
+
+make 로 main 실행파일이 생성된다.   
+실행 후 command는 `add`, `verify`, `delete`, `exit` 이 있다.
+
+- add : 카드 추가
+- verify : 카드가 있는지 확인
+- delete : 카드 삭제
+
+![PN532 cli 명령](images/pn532-cli.png)
+
 ### 참고
 
 `wiringPiSetupGpio()` 즉 BCM으로 초기화하였다. AS608과 같이 쓰기 위해서는 통일할 필요가 있다.
