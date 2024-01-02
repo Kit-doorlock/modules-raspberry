@@ -4,9 +4,18 @@
 
 #include "utils.h"
 
-int main() {
+int main(int argc, char* argv[]) {
     char command[20];
-    initPN532();
+    int init_res = 0;
+
+    if (argc == 1 || argc > 2) {
+        printf("usage: ./main <MODE>\nmode - UART:0, SPI:1, I2C:2\n");
+        return 1;
+    }
+
+    init_res = initPN532(atoi(argv[1]));
+    if (init_res == -1) return 2;
+    else if (init_res == -2) return 3;
 
     while (1) {
         scanf("%s", command);
