@@ -21,12 +21,15 @@ int initPN532(uchar_t serial) {
 
     switch (serial) {
         case UART:
+            printf("Init Uart start!\n");
             PN532_UART_Init(&pn532);
             break;
         case SPI:
+            printf("Init I2C start!\n");
             PN532_SPI_Init(&pn532);
             break;
         case I2C:
+            printf("Init I2C start!\n");
             PN532_I2C_Init(&pn532);
             break;
         default:
