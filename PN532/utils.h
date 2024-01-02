@@ -4,6 +4,10 @@
 
 #define MAX_WAIT 10 // sec
 
+#define UART 0
+#define SPI 1
+#define I2C 2 // IIC
+
 extern uint8_t buff[255];
 extern uint8_t uid[MIFARE_UID_MAX_LENGTH];
 extern PN532 pn532;
@@ -15,7 +19,7 @@ typedef struct pn532_firmware_version {
 
 void waitUntilNotDetectCard();
 void waitUntilDetectCard();
-void initPN532();
+int initPN532(uchar_t serial);
 
 void addCard();
 void deleteCard();

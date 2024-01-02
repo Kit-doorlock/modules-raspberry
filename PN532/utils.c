@@ -16,17 +16,34 @@ void waitUntilDetectCard() {
     while(PN532_ReadPassiveTarget(&pn532, uid, PN532_MIFARE_ISO14443A, 1000) == PN532_STATUS_ERROR);
 }
 
-void initPN532() {
+int initPN532(uchar_t serial) {
     firmware f;
 
-    // PN532_SPI_Init(&pn532);
-    // PN532_I2C_Init(&pn532);
-    PN532_UART_Init(&pn532);
+    switch (serial) {
+        case UART:
+            printf("Init Uart start!\n");
+            PN532_UART_Init(&pn532);
+            break;
+        case SPI:
+            printf("Init I2C start!\n");
+            PN532_SPI_Init(&pn532);
+            break;
+        case I2C:
+            printf("Init I2C start!\n");
+            PN532_I2C_Init(&pn532);
+            break;
+        default:
+            return -1;
+            break;    
+    }
 
     f = getPN532Version();
-    if (f.integer == -1) exit(-1);
+    if (f.integer == 255U) return -2;
 
     PN532_SamConfiguration(&pn532);
+
+    printf("Init Complete!\n");
+    return 0;
 }
 
 firmware getPN532Version() {
