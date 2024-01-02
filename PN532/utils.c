@@ -35,9 +35,11 @@ int initPN532(uchar_t serial) {
     }
 
     f = getPN532Version();
-    if (f.integer == -1) return -2;
+    if (f.integer == 255U) return -2;
 
     PN532_SamConfiguration(&pn532);
+
+    printf("Init Complete!\n");
     return 0;
 }
 
