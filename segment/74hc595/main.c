@@ -10,6 +10,7 @@
 void writeFND(unsigned int data);
 void writeFNDByte(unsigned char data);
 void writeFNDBit(unsigned char data);
+void displayFND();
 
 const unsigned char FND_CHAR_MAP[10] = {
     0b0000001, // 0
@@ -36,7 +37,7 @@ void init() {
     digitalWrite(LCH, LOW);
 }
 
-void write8digitFND(const unsigned int datas[]) {
+void write8digitFND(const unsigned char datas[]) {
     unsigned int data = 0;
     for (int i = 0; i < 8; i++) {
         data = (unsigned int)datas[i] << 8;
@@ -47,16 +48,22 @@ void write8digitFND(const unsigned int datas[]) {
 
 void writeFND(unsigned int data) {
     writeFNDByte( data & 0xff ); // position
-    writeFNDByte( (data >> 8 ) & 0xff ); // data
+    writeFNDByte( data >> 8 ); // data
 
+    displayFND();
+}
+
+void displayFND() {
     digitalWrite(LCH, HIGH);
     delay(2);
     digitalWrite(LCH, LOW);
 }
 
-void print(unsigned char data) {
-    for (int i = 7; i >= 0; i--) printf("%d", (data >> i) & 1);
-    printf(" ");
+void writeFNDByte(unsigned char data) {
+    for (int i = 0; i < BIT_8; i++) {
+        writeFNDBit(data & 0x01);
+        data >>= 1;
+    }
 }
 
 void writeFNDBit(unsigned char bit) {
@@ -64,14 +71,6 @@ void writeFNDBit(unsigned char bit) {
     digitalWrite(CLK, HIGH);
     delayMicroseconds(1);
     digitalWrite(CLK, LOW);
-}
-
-void writeFNDByte(unsigned char data) {
-    // print(data);
-    for (int i = 0; i < BIT_8; i++) {
-        writeFNDBit(data & 0x01);
-        data >>= 1;
-    }
 }
 
 // 동작
@@ -83,7 +82,7 @@ void writeFNDByte(unsigned char data) {
 // e.g.) 0xff - 모든 위치에 8 띄움
 
 int main() {
-    unsigned int datas[8];
+    unsigned char datas[8];
 
     init();
 
