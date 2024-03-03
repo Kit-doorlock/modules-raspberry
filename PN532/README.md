@@ -13,16 +13,13 @@ I2C, UART, SPI에 따라 다르다.
 
 자세한 내용은 [이쪽](https://github.com/soonuse/pn532-lib/tree/master)을 참고 바란다.
 
-1. UART - ttyAMA1
-
+1. UART - ttyAMA1   
 ![PN532 UART Pinmap](images/pn532-uart.png)
 
-2. SPI
-
+2. SPI   
 ![PN532 SPI Pinmap](images/pn532-spi.png)
 
-3. I2C
-
+3. I2C   
 ![PN532 I2C Pinmap](images/pn532-i2c.png)
 
 ### 기초 세팅
@@ -66,7 +63,7 @@ make 로 main 실행파일이 생성된다.
 
 i2c를 활성화 할때 raspi-config에서 수정을 해도 dtparam=i2c_arm=on 이부분만 주석을 해제해줬다.   
 dtparam=i2c=on 이 부분도 주석 해제해주자.   
-<del>내가 이거때문에 몇시간을 해멨는지 모르겠다...</del>
+<del>내가 이거 때문에 몇 시간을 해맸는지 모르겠다...</del>
 
 <br>
 

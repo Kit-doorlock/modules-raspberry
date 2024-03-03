@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define CLK 20
-#define DIO 21
 #define LCH 16
+#define CLK 20
+#define SER 21
+
 #define BIT_8 8
+#define ONE_SEC 62
 
 void writeFND(unsigned int data);
 void writeFNDByte(unsigned char data);
@@ -29,11 +31,11 @@ void init() {
     if (wiringPiSetupGpio() == -1) exit(-1);
 
     pinMode(CLK, OUTPUT);
-    pinMode(DIO, OUTPUT);
+    pinMode(SER, OUTPUT);
     pinMode(LCH, OUTPUT);
 
     digitalWrite(CLK, LOW);
-    digitalWrite(DIO, LOW);
+    digitalWrite(SER, LOW);
     digitalWrite(LCH, LOW);
 }
 
@@ -67,7 +69,7 @@ void writeFNDByte(unsigned char data) {
 }
 
 void writeFNDBit(unsigned char bit) {
-    digitalWrite(DIO, (bit % 2) == 1 ? HIGH : LOW);
+    digitalWrite(SER, (bit % 2) == 1 ? HIGH : LOW);
     digitalWrite(CLK, HIGH);
     delayMicroseconds(1);
     digitalWrite(CLK, LOW);
@@ -83,15 +85,20 @@ void writeFNDBit(unsigned char bit) {
 
 int main() {
     unsigned char datas[8];
+    int i = 0;
+    int cnt = 0;
 
     init();
 
     // writeFND(0b0001101 << 8 | 0x80);
-    for (int i = 0; i < 8; i++) {
-        datas[i] = FND_CHAR_MAP[i+1];
-    }
     while(1) {
-        write8digitFND(datas);
+        for (int j = 0; j < 8; j++)
+            datas[j] = FND_CHAR_MAP[(i+j*3) % 10] | 0x8000;
+
+        while ((++cnt) < ONE_SEC)
+            write8digitFND(datas);
+
+        i++; cnt = 0;
     }
 
     
